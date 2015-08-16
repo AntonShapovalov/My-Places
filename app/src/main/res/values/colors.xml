@@ -100,7 +100,7 @@
     <color name="blue900">#0D47A1</color>
     <color name="blueA200">#448AFF</color>
     <color name="blueA400">#2979FF</color>
-    <color name="blueA700">#2962F</color>
+    <color name="blueA700">#2962FF</color>
 
     <!-- light_blue : black text -->
     <color name="blue_light50">#E1F5FE</color>
