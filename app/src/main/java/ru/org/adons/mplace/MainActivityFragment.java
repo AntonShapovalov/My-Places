@@ -14,11 +14,11 @@ public class MainActivityFragment extends ListFragment {
 
         setEmptyText("No phone numbers");
 
-        String[] items = new String[50];
-        for (int i = 0; i < items.length; i++) {
-            items[i] = "item" + i;
-        }
-        setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items));
+//        String[] items = new String[50];
+//        for (int i = 0; i < items.length; i++) {
+//            items[i] = "item" + i;
+//        }
+//        setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items));
         //setListShown(false);
     }
 }
