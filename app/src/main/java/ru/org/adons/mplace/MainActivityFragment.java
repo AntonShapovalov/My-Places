@@ -1,24 +1,36 @@
 package ru.org.adons.mplace;
 
-import android.app.ListFragment;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends ListFragment {
+public class MainActivityFragment extends Fragment {
 
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    String[] dataSet = new String[20];
 
-        setEmptyText("No phone numbers");
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        for (int i = 0; i < dataSet.length; i++) {
+            dataSet[i] = "Item #" + i;
+        }
+    }
 
-//        String[] items = new String[50];
-//        for (int i = 0; i < items.length; i++) {
-//            items[i] = "item" + i;
-//        }
-//        setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items));
-        //setListShown(false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        RecyclerView rv = (RecyclerView) inflater.inflate(
+                R.layout.fragment_main, container, false);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rv.setAdapter(new RecyclerAdapter(dataSet));
+        return rv;
     }
 }
