@@ -2,31 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Home" />
+            android:id="@+id/nav_place"
+            android:icon="@drawable/ic_place_white_24dp"
+            android:title="Place" />
         <item
-            android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Messages" />
+            android:id="@+id/nav_shop"
+            android:icon="@drawable/ic_shopping_cart_white_24dp"
+            android:title="Shop" />
         <item
-            android:id="@+id/nav_friends"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Friends" />
+            android:id="@+id/nav_cafe"
+            android:icon="@drawable/ic_av_timer_white_24dp"
+            android:title="Cafe" />
         <item
-            android:id="@+id/nav_discussion"
-            android:icon="@drawable/ic_add_white_24dp"
-            android:title="Discussion" />
+            android:id="@+id/nav_picnic"
+            android:icon="@drawable/ic_filter_vintage_white_24dp"
+            android:title="Picnic" />
+        <item
+            android:id="@+id/nav_favorite"
+            android:icon="@drawable/ic_favorite_white_24dp"
+            android:title="Favorite" />
     </group>
 
-    <item android:title="Sub items">
-        <menu>
-            <item
-                android:icon="@drawable/ic_add_white_24dp"
-                android:title="Sub item 1" />
-            <item
-                android:icon="@drawable/ic_add_white_24dp"
-                android:title="Sub item 2" />
-        </menu>
-    </item>
 </menu>

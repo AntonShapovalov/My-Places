@@ -1,5 +1,21 @@
 <resources>
     <string name="app_name">MPlace</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Main Activity -->
+    <string name="main_title">My Favorite Places</string>
+    <string name="main_intent_key_item_id"></string>
+
+    <!-- Edit Activity Base -->
+    <string name="edit_title">Modify Place</string>
+    <string name="edit_category">Category</string>
+    <string name="edit_category_prompt">Select Category</string>
+    <string name="edit_name">Name</string>
+    <string name="edit_description">Description</string>
+    <string name="edit_action_done">Done</string>
+
+    <!-- View Activity -->
+    <string name="view_title">View Place</string>
+    <string name="view_action_edit">Delete</string>
+    <string name="view_action_delete">Delete</string>
 </resources>

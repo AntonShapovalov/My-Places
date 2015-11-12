@@ -119,4 +119,21 @@
     <color name="blue_light900">#01579B</color>
     <color name="blue_lightA700">#0091EA</color>
 
+    <!-- deep_orange : black text -->
+    <color name="deep_orange50">#FBE9E7</color>
+    <color name="deep_orange100">#FFCCBC</color>
+    <color name="deep_orange200">#FFAB91</color>
+    <color name="deep_orange300">#FF8A65</color>
+    <color name="deep_orange400">#FF7043</color>
+    <color name="deep_orangeA100">#FF9E80</color>
+    <color name="deep_orangeA200">#FF6E40</color>
+    <!-- deep_orange : white text -->
+    <color name="deep_orange500">#FF5722</color>
+    <color name="deep_orange600">#F4511E</color>
+    <color name="deep_orange700">#E64A19</color>
+    <color name="deep_orange800">#D84315</color>
+    <color name="deep_orange900">#BF360C</color>
+    <color name="deep_orangeA400">#FF3D00</color>
+    <color name="deep_orangeA700">#DD2C00</color>
+
 </resources>
