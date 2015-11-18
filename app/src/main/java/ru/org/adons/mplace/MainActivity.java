@@ -17,14 +17,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import ru.org.adons.mplace.edit.EditActivity;
 import ru.org.adons.mplace.list.ListLoader;
 import ru.org.adons.mplace.list.RecyclerAdapter;
-import ru.org.adons.mplace.view.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "MPLACE";
+    public static final Map<Integer, String> categories = new TreeMap<Integer, String>();
     public static final String ACTION_ADD_PLACE = "ADD_PLACE";
     private static final int CODE_ADD_PLACE = 1;
     private DrawerLayout drawerLayout;
@@ -35,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(MainActivity.LOG_TAG, "MAIN:onCreate");
         super.onCreate(savedInstanceState);
+        if (categories.size() == 0) {
+            categories.put(R.id.nav_place, getString(R.string.nav_place));
+            categories.put(R.id.nav_shop, getString(R.string.nav_shop));
+            categories.put(R.id.nav_cafe, getString(R.string.nav_cafe));
+            categories.put(R.id.nav_picnic, getString(R.string.nav_picnic));
+            categories.put(R.id.nav_favorite, getString(R.string.nav_favorite));
+        }
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
@@ -110,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void filterList(int category) {
         // TODO: filter list by category
-        Toast.makeText(this, CategoryAdapter.categories.get(category).toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, categories.get(category).toString(), Toast.LENGTH_LONG).show();
     }
 
 }

@@ -10,7 +10,7 @@ import ru.org.adons.mplace.MainActivity;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "mplace.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,7 +22,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 + PlaceTable._ID + " INTEGER PRIMARY KEY,"
                 + PlaceTable.NAME + " TEXT,"
                 + PlaceTable.DATE + " INTEGER,"
-                + PlaceTable.DESCRIPTION + " TEXT"
+                + PlaceTable.DESCRIPTION + " TEXT,"
+                + PlaceTable.THUMBNAIL + " BLOB,"
+                + PlaceTable.IMAGE_PATH + " TEXT"
                 + ");");
     }
 

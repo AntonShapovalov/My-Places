@@ -2,11 +2,13 @@ package ru.org.adons.mplace.list;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,13 +25,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private int itemBackground;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView textView;
         public final View holderView;
+        public final ImageView image;
+        public final TextView name;
 
         public ViewHolder(View v) {
             super(v);
             holderView = v;
-            textView = (TextView) v.findViewById(android.R.id.text1);
+            image = (ImageView) v.findViewById(R.id.item_image);
+            name = (TextView) v.findViewById(R.id.item_name);
         }
     }
 
@@ -41,14 +45,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(android.R.layout.simple_list_item_1, parent, false);
+                .inflate(R.layout.list_item, parent, false);
         view.setBackgroundResource(itemBackground);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.textView.setText(places.get(position).getName());
+        holder.name.setText(places.get(position).getName());
+
+        Bitmap bitmap = places.get(position).getThumbnail();
+        if (bitmap != null) {
+            holder.image.setImageBitmap(bitmap);
+        } else {
+            holder.image.setImageResource(R.drawable.ic_image_indigo_60dip);
+        }
+
         // VIEW PLACE
         holder.holderView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +68,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Intent intent = new Intent(v.getContext(), ViewActivity.class);
                 intent.putExtra(ViewActivity.EXTRA_ID, places.get(position).getID());
                 intent.putExtra(ViewActivity.EXTRA_NAME, places.get(position).getName());
+                intent.putExtra(ViewActivity.EXTRA_DATE, places.get(position).getDate());
+                intent.putExtra(ViewActivity.EXTRA_DESCRIPTION, places.get(position).getDescription());
+                intent.putExtra(ViewActivity.EXTRA_IMAGE_PATH, places.get(position).getImagePath());
                 v.getContext().startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.view;
+package ru.org.adons.mplace;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,24 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.Map;
-import java.util.TreeMap;
-
-import ru.org.adons.mplace.R;
-
 public class CategoryAdapter extends ArrayAdapter<Integer> {
 
-    public static final Map<Integer, String> categories = new TreeMap<Integer, String>() {{
-        put(R.id.nav_place, "Place");
-        put(R.id.nav_shop, "Shop");
-        put(R.id.nav_cafe, "Cafe");
-        put(R.id.nav_picnic, "Picnic");
-        put(R.id.nav_favorite, "Favorite");
-    }};
 
     public CategoryAdapter(Context context, int resource) {
         super(context, resource);
-        addAll(categories.keySet());
+        addAll(MainActivity.categories.keySet());
     }
 
     private static class ViewHolder {
@@ -57,7 +45,7 @@ public class CategoryAdapter extends ArrayAdapter<Integer> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.text.setText(categories.get((int) getItemId(position)));
+        holder.text.setText(MainActivity.categories.get((int) getItemId(position)));
         return convertView;
     }
 

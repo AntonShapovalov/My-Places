@@ -15,5 +15,5 @@
         android:icon="@drawable/ic_delete_white_24dp"
         android:onClick="delete"
         android:title="@string/view_action_delete"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 </menu>

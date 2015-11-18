@@ -6,7 +6,19 @@
     <string name="main_title">My Favorite Places</string>
     <string name="main_intent_key_item_id"></string>
 
-    <!-- Edit Activity Base -->
+    <!-- List -->
+    <string name="item_image_content">Default List Image</string>
+    <string name="item_name">Default Name</string>
+    <string name="item_location">default location</string>
+
+    <!-- Categories -->
+    <string name="nav_place">Place</string>
+    <string name="nav_shop">Shop</string>
+    <string name="nav_cafe">Cafe</string>
+    <string name="nav_picnic">Picnic</string>
+    <string name="nav_favorite">Favorite</string>
+
+    <!-- Edit Activity -->
     <string name="edit_title">Modify Place</string>
     <string name="edit_category">Category</string>
     <string name="edit_category_prompt">Select Category</string>
@@ -16,6 +28,6 @@
 
     <!-- View Activity -->
     <string name="view_title">View Place</string>
-    <string name="view_action_edit">Delete</string>
+    <string name="view_action_edit">Edit</string>
     <string name="view_action_delete">Delete</string>
 </resources>

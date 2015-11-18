@@ -25,7 +25,8 @@
         <activity
             android:name=".edit.EditActivity"
             android:label="@string/edit_title"
-            android:theme="@style/Base.AppTheme.DarkActionBar" />
+            android:theme="@style/Base.AppTheme.DarkActionBar"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity android:name=".view.ViewActivity" />
 

@@ -1,17 +1,23 @@
 package ru.org.adons.mplace;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.text.format.DateFormat;
+
 import java.util.Date;
 
 public class Place {
 
-    private int ID;
+    private Context context;
+    private int ID; // rowID in DB
     private String name;
+    private String date;
     private String description;
-    private Date date;
+    private Bitmap thumbnail;
+    private String imagePath;
 
-    public Place(int ID, String name) {
-        this.ID = ID;
-        this.name = name;
+    public Place(Context context) {
+        this.context = context;
     }
 
     public int getID() {
@@ -30,6 +36,14 @@ public class Place {
         this.name = name;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = DateFormat.getLongDateFormat(context).format(date);
+    }
+
     public String getDescription() {
         return description;
     }
@@ -38,12 +52,19 @@ public class Place {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public Bitmap getThumbnail() {
+        return thumbnail;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
 }

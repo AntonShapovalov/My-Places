@@ -4,23 +4,23 @@
         <item
             android:id="@+id/nav_place"
             android:icon="@drawable/ic_place_white_24dp"
-            android:title="Place" />
+            android:title="@string/nav_place" />
         <item
             android:id="@+id/nav_shop"
             android:icon="@drawable/ic_shopping_cart_white_24dp"
-            android:title="Shop" />
+            android:title="@string/nav_shop" />
         <item
             android:id="@+id/nav_cafe"
             android:icon="@drawable/ic_av_timer_white_24dp"
-            android:title="Cafe" />
+            android:title="@string/nav_cafe" />
         <item
             android:id="@+id/nav_picnic"
             android:icon="@drawable/ic_filter_vintage_white_24dp"
-            android:title="Picnic" />
+            android:title="@string/nav_picnic" />
         <item
             android:id="@+id/nav_favorite"
             android:icon="@drawable/ic_favorite_white_24dp"
-            android:title="Favorite" />
+            android:title="@string/nav_favorite" />
     </group>
 
 </menu>
