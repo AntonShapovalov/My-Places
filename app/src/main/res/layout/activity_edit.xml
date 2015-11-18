@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
     android:orientation="vertical"
     tools:context="ru.org.adons.mplace.edit.EditActivity">
 
@@ -16,21 +16,27 @@
         <ImageView
             android:id="@+id/edit_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/edit_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_photo_camera_white_48dp" />
+            android:src="@drawable/ic_photo_camera_white_48dp"
+            app:borderWidth="0dp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="26dp">
 
         <TextView
             android:id="@+id/edit_category_caption"
@@ -61,7 +67,9 @@
                 android:id="@+id/edit_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/edit_name" />
+                android:hint="@string/edit_name"
+                android:imeOptions="actionNext"
+                android:inputType="textShortMessage" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -76,7 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/edit_description"
-                android:inputType="textMultiLine" />
+                android:imeOptions="actionDone"
+                android:inputType="textLongMessage" />
+
         </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
