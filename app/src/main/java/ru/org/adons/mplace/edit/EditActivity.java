@@ -1,5 +1,6 @@
 package ru.org.adons.mplace.edit;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ru.org.adons.mplace.CategoryAdapter;
-import ru.org.adons.mplace.ImageUtils;
 import ru.org.adons.mplace.MainActivity;
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
@@ -96,9 +96,9 @@ public class EditActivity extends AppCompatActivity {
                 Bitmap bitmap = ImageUtils.decodeBitmapFromFile(imagePath, imageView.getWidth(), imageView.getHeight());
                 if (bitmap != null) {
                     imageView.setImageBitmap(bitmap);
+                    moveFab();
                 }
             }
-            moveFab();
             name.setText(getIntent().getStringExtra(ViewActivity.EXTRA_NAME));
             description.setText(getIntent().getStringExtra(ViewActivity.EXTRA_DESCRIPTION));
         }
@@ -118,13 +118,12 @@ public class EditActivity extends AppCompatActivity {
             }
             if (bitmap != null) {
                 imageView.setImageBitmap(bitmap);
+                moveFab();
             }
-
-            // move floating "Take Picture" button to right-end corner
-            moveFab();
         }
     }
 
+    // move floating "Take Picture" button to right-end corner
     private void moveFab() {
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -154,33 +153,49 @@ public class EditActivity extends AppCompatActivity {
      */
     public void done(MenuItem item) {
         if (getIntent().getAction() == MainActivity.ACTION_ADD_PLACE) {
-            ContentValues values = new ContentValues();
-
-            values.put(PlaceTable.NAME, name.getText().toString());
-            values.put(PlaceTable.DATE, new Date().getTime());
-            values.put(PlaceTable.DESCRIPTION, description.getText().toString());
-
-            // put thumbnail image
-            if (thumbnail != null) {
-                byte[] bytes = null;
-                try {
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    thumbnail.compress(Bitmap.CompressFormat.PNG, 0, out);
-                    bytes = out.toByteArray();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                values.put(PlaceTable.THUMBNAIL, bytes);
-            }
-            // put imagePath
-            values.put(PlaceTable.IMAGE_PATH, imagePath);
-
-            getContentResolver().insert(DBContentProvider.CONTENT_URI, values);
+            getContentResolver().insert(DBContentProvider.CONTENT_URI, getContentValues());
+            setResult(RESULT_OK);
         } else if (getIntent().getAction() == ViewActivity.ACTION_EDIT_PLACE) {
-            // TODO: perform update
+            if (!TextUtils.isEmpty(imagePath) && !imagePath.equals(getIntent().getStringExtra(ViewActivity.EXTRA_IMAGE_PATH))
+                    || !name.getText().equals(getIntent().getStringExtra(ViewActivity.EXTRA_NAME))
+                    || !description.getText().equals(getIntent().getStringExtra(ViewActivity.EXTRA_DESCRIPTION))) {
+                int ID = getIntent().getIntExtra(ViewActivity.EXTRA_ID, -1);
+                String where = "(" + PlaceTable._ID + " = " + ID + ")";
+                Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, ID);
+                getContentResolver().update(uri, getContentValues(), where, null);
+
+                Intent result = new Intent();
+                result.putExtra(ViewActivity.EXTRA_NAME, name.getText());
+                result.putExtra(ViewActivity.EXTRA_IMAGE_PATH, imagePath);
+                result.putExtra(ViewActivity.EXTRA_DESCRIPTION, description.getText());
+                setResult(RESULT_OK, result);
+            }
+        } else {
+            setResult(RESULT_CANCELED);
         }
-        setResult(RESULT_OK);
         finish();
+    }
+
+    private ContentValues getContentValues() {
+        ContentValues values = new ContentValues();
+        values.put(PlaceTable.NAME, name.getText().toString());
+        values.put(PlaceTable.DATE, new Date().getTime());
+        values.put(PlaceTable.DESCRIPTION, description.getText().toString());
+        // put thumbnail image
+        if (thumbnail != null) {
+            byte[] bytes = null;
+            try {
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                thumbnail.compress(Bitmap.CompressFormat.PNG, 0, out);
+                bytes = out.toByteArray();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            values.put(PlaceTable.THUMBNAIL, bytes);
+        }
+        // put imagePath
+        values.put(PlaceTable.IMAGE_PATH, imagePath);
+        return values;
     }
 }

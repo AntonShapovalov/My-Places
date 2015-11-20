@@ -96,7 +96,20 @@ public class DBContentProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+    public int update(Uri uri, ContentValues values, String where, String[] whereArgs) {
+        if (uriMatcher.match(uri) == PLACE_ID) {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            int rowId = db.update(PlaceTable.TABLE_NAME, values, where, whereArgs);
+            if (rowId > 0) {
+                getContext().getContentResolver().notifyChange(uri, null);
+                return rowId;
+            } else {
+                Log.e(MainActivity.LOG_TAG, "Failed to update row " + uri);
+                return 0;
+            }
+        } else {
+            Log.e(MainActivity.LOG_TAG, "Unknown URI " + uri);
+            return 0;
+        }
     }
 }

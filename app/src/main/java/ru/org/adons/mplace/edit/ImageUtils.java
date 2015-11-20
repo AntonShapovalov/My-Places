@@ -1,4 +1,4 @@
-package ru.org.adons.mplace;
+package ru.org.adons.mplace.edit;
 
 import android.content.Context;
 import android.content.Intent;

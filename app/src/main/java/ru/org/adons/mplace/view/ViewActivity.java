@@ -11,12 +11,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Date;
 
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
@@ -32,7 +35,10 @@ public class ViewActivity extends AppCompatActivity {
     public static final String EXTRA_IMAGE_PATH = "image_path";
     public static final String ACTION_EDIT_PLACE = "EDIT_PLACE";
     private static final int CODE_EDIT_PLACE = 2;
-    private int ID;
+    private CollapsingToolbarLayout collapsingToolbar;
+    private ImageView imageView;
+    private TextView description;
+    private TextView date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +49,11 @@ public class ViewActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ID = getIntent().getIntExtra(EXTRA_ID, -1);
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(getIntent().getStringExtra(EXTRA_NAME));
 
-        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        final String name = getIntent().getStringExtra(EXTRA_NAME);
-        collapsingToolbar.setTitle(name);
-
-        TextView textDesc = (TextView) findViewById(R.id.view_desc);
-        final String description = getIntent().getStringExtra(EXTRA_DESCRIPTION);
-        textDesc.setText(description);
-
-        ImageView imageView = (ImageView) findViewById(R.id.view_backdrop);
-        final String imagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
+        imageView = (ImageView) findViewById(R.id.view_backdrop);
+        String imagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
         if (!TextUtils.isEmpty(imagePath)) {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             if (bitmap != null) {
@@ -62,9 +61,11 @@ public class ViewActivity extends AppCompatActivity {
             }
         }
 
-        TextView textDate = (TextView) findViewById(R.id.view_date);
-        final String date = getIntent().getStringExtra(EXTRA_DATE);
-        textDate.setText(date);
+        description = (TextView) findViewById(R.id.view_desc);
+        description.setText(getIntent().getStringExtra(EXTRA_DESCRIPTION));
+
+        date = (TextView) findViewById(R.id.view_date);
+        date.setText(getIntent().getStringExtra(EXTRA_DATE));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,16 +97,34 @@ public class ViewActivity extends AppCompatActivity {
     public void edit(MenuItem item) {
         Intent intent = new Intent(this, EditActivity.class);
         intent.setAction(ACTION_EDIT_PLACE);
+        intent.putExtra(EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, -1));
         intent.putExtra(EXTRA_IMAGE_PATH, getIntent().getStringExtra(EXTRA_IMAGE_PATH));
         intent.putExtra(EXTRA_NAME, getIntent().getStringExtra(EXTRA_NAME));
         intent.putExtra(EXTRA_DESCRIPTION, getIntent().getStringExtra(EXTRA_DESCRIPTION));
         startActivityForResult(intent, CODE_EDIT_PLACE);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CODE_EDIT_PLACE && resultCode == RESULT_OK) {
+            collapsingToolbar.setTitle(data.getCharSequenceExtra(EXTRA_NAME));
+            String imagePath = data.getStringExtra(EXTRA_IMAGE_PATH);
+            if (!TextUtils.isEmpty(imagePath)) {
+                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                if (bitmap != null) {
+                    imageView.setImageBitmap(bitmap);
+                }
+            }
+            description.setText(data.getCharSequenceExtra(EXTRA_DESCRIPTION));
+            date.setText(DateFormat.getLongDateFormat(this).format(new Date()));
+        }
+    }
+
     /**
      * Handle click Action Bar Button 'Delete'
      */
     public void delete(MenuItem item) {
+        int ID = getIntent().getIntExtra(EXTRA_ID, -1);
         String where = "(" + PlaceTable._ID + " = " + ID + ")";
         Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, ID);
         getContentResolver().delete(uri, where, null);
