@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import ru.org.adons.mplace.edit.EditActivity;
-import ru.org.adons.mplace.list.ListLoader;
 import ru.org.adons.mplace.list.RecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String LOG_TAG = "MPLACE";
     public static final Map<Integer, String> categories = new TreeMap<Integer, String>();
     public static final String ACTION_ADD_PLACE = "ADD_PLACE";
-    private static final int CODE_ADD_PLACE = 1;
+    public static final String ACTION_EDIT_PLACE = "EDIT_PLACE";
+    public static final int CODE_ADD_PLACE = 1;
+    public static final int CODE_EDIT_PLACE = 2;
+    public static final String EXTRA_PLACE = "place";
+
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
@@ -82,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new RecyclerAdapter(this);
-        getSupportLoaderManager().initLoader(0, null, new ListLoader(this, adapter));
+        getSupportLoaderManager().initLoader(0, null, adapter);
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override

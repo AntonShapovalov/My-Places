@@ -2,8 +2,6 @@ package ru.org.adons.mplace.view;
 
 import android.content.ContentUris;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Date;
+import com.bumptech.glide.Glide;
 
+import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.Place;
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
 import ru.org.adons.mplace.db.PlaceTable;
@@ -28,13 +29,7 @@ import ru.org.adons.mplace.edit.EditActivity;
 
 public class ViewActivity extends AppCompatActivity {
 
-    public static final String EXTRA_ID = "id";
-    public static final String EXTRA_NAME = "name";
-    public static final String EXTRA_DATE = "date";
-    public static final String EXTRA_DESCRIPTION = "description";
-    public static final String EXTRA_IMAGE_PATH = "image_path";
-    public static final String ACTION_EDIT_PLACE = "EDIT_PLACE";
-    private static final int CODE_EDIT_PLACE = 2;
+    private Place place;
     private CollapsingToolbarLayout collapsingToolbar;
     private ImageView imageView;
     private TextView description;
@@ -45,27 +40,28 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
+        place = (Place) getIntent().getSerializableExtra(MainActivity.EXTRA_PLACE);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(getIntent().getStringExtra(EXTRA_NAME));
+        collapsingToolbar.setTitle(place.getName());
 
         imageView = (ImageView) findViewById(R.id.view_backdrop);
-        String imagePath = getIntent().getStringExtra(EXTRA_IMAGE_PATH);
-        if (!TextUtils.isEmpty(imagePath)) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
-            }
+        if (!TextUtils.isEmpty(place.getImagePath())) {
+            Glide.with(this)
+                    .load(place.getImagePath())
+                    .centerCrop()
+                    .into(imageView);
         }
 
         description = (TextView) findViewById(R.id.view_desc);
-        description.setText(getIntent().getStringExtra(EXTRA_DESCRIPTION));
+        description.setText(place.getDescription());
 
         date = (TextView) findViewById(R.id.view_date);
-        date.setText(getIntent().getStringExtra(EXTRA_DATE));
+        date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,27 +92,22 @@ public class ViewActivity extends AppCompatActivity {
      */
     public void edit(MenuItem item) {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.setAction(ACTION_EDIT_PLACE);
-        intent.putExtra(EXTRA_ID, getIntent().getIntExtra(EXTRA_ID, -1));
-        intent.putExtra(EXTRA_IMAGE_PATH, getIntent().getStringExtra(EXTRA_IMAGE_PATH));
-        intent.putExtra(EXTRA_NAME, getIntent().getStringExtra(EXTRA_NAME));
-        intent.putExtra(EXTRA_DESCRIPTION, getIntent().getStringExtra(EXTRA_DESCRIPTION));
-        startActivityForResult(intent, CODE_EDIT_PLACE);
+        intent.setAction(MainActivity.ACTION_EDIT_PLACE);
+        intent.putExtra(MainActivity.EXTRA_PLACE, place);
+        startActivityForResult(intent, MainActivity.CODE_EDIT_PLACE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE_EDIT_PLACE && resultCode == RESULT_OK) {
-            collapsingToolbar.setTitle(data.getCharSequenceExtra(EXTRA_NAME));
-            String imagePath = data.getStringExtra(EXTRA_IMAGE_PATH);
-            if (!TextUtils.isEmpty(imagePath)) {
-                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-            description.setText(data.getCharSequenceExtra(EXTRA_DESCRIPTION));
-            date.setText(DateFormat.getLongDateFormat(this).format(new Date()));
+        if (requestCode == MainActivity.CODE_EDIT_PLACE && resultCode == RESULT_OK) {
+            place = (Place) data.getSerializableExtra(MainActivity.EXTRA_PLACE);
+            collapsingToolbar.setTitle(place.getName());
+            Glide.with(this)
+                    .load(place.getImagePath())
+                    .centerCrop()
+                    .into(imageView);
+            description.setText(place.getDescription());
+            date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
         }
     }
 
@@ -124,11 +115,15 @@ public class ViewActivity extends AppCompatActivity {
      * Handle click Action Bar Button 'Delete'
      */
     public void delete(MenuItem item) {
-        int ID = getIntent().getIntExtra(EXTRA_ID, -1);
-        String where = "(" + PlaceTable._ID + " = " + ID + ")";
-        Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, ID);
+        String where = "(" + PlaceTable._ID + " = " + place.getID() + ")";
+        Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, place.getID());
         getContentResolver().delete(uri, where, null);
         finish();
     }
 
+    @Override
+    protected void onDestroy() {
+        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": destroy");
+        super.onDestroy();
+    }
 }

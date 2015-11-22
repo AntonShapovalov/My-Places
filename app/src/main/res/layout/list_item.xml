@@ -12,9 +12,9 @@
         android:id="@+id/item_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:contentDescription="@string/item_image_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_image_indigo_60dip" />
+        android:background="@drawable/thumbnail_background"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/item_image_content" />
 
     <TextView
         android:id="@+id/item_name"

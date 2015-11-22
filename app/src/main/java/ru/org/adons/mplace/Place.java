@@ -1,24 +1,15 @@
 package ru.org.adons.mplace;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.text.format.DateFormat;
-
+import java.io.Serializable;
 import java.util.Date;
 
-public class Place {
+public class Place implements Serializable {
 
-    private Context context;
     private int ID; // rowID in DB
     private String name;
-    private String date;
+    private Date date;
     private String description;
-    private Bitmap thumbnail;
     private String imagePath;
-
-    public Place(Context context) {
-        this.context = context;
-    }
 
     public int getID() {
         return ID;
@@ -36,12 +27,12 @@ public class Place {
         this.name = name;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
-        this.date = DateFormat.getLongDateFormat(context).format(date);
+        this.date = date;
     }
 
     public String getDescription() {
@@ -50,14 +41,6 @@ public class Place {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Bitmap getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(Bitmap thumbnail) {
-        this.thumbnail = thumbnail;
     }
 
     public String getImagePath() {

@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.bumptech.glide.Glide;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -28,17 +30,17 @@ import java.util.Date;
 
 import ru.org.adons.mplace.CategoryAdapter;
 import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.Place;
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
 import ru.org.adons.mplace.db.PlaceTable;
-import ru.org.adons.mplace.view.ViewActivity;
 
 public class EditActivity extends AppCompatActivity {
 
     private static final int CODE_TAKE_IMAGE = 3;
+    private Place place;
     private ImageView imageView;
     private String imagePath;
-    private Bitmap thumbnail;
     private FloatingActionButton fab;
     private Spinner category;
     private EditText name;
@@ -54,8 +56,31 @@ public class EditActivity extends AppCompatActivity {
 
         imageView = (ImageView) findViewById(R.id.edit_image);
 
-        // TAKE IMAGE
+        CategoryAdapter adapter = new CategoryAdapter(this, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        category = (Spinner) findViewById(R.id.edit_category);
+        category.setAdapter(adapter);
+
+        name = (EditText) findViewById(R.id.edit_name);
+        description = (EditText) findViewById(R.id.edit_description);
         fab = (FloatingActionButton) findViewById(R.id.edit_fab);
+
+        // ACTION EDIT - set initial value
+        if (getIntent().getAction() == MainActivity.ACTION_EDIT_PLACE) {
+            place = (Place) getIntent().getSerializableExtra(MainActivity.EXTRA_PLACE);
+            imagePath = place.getImagePath();
+            if (!TextUtils.isEmpty(imagePath)) {
+                Glide.with(this)
+                        .load(place.getImagePath())
+                        .fitCenter()
+                        .into(imageView);
+                moveFab();
+            }
+            name.setText(place.getName());
+            description.setText(place.getDescription());
+        }
+
+        // TAKE IMAGE
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,28 +106,6 @@ public class EditActivity extends AppCompatActivity {
             }
         });
 
-        CategoryAdapter adapter = new CategoryAdapter(this, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category = (Spinner) findViewById(R.id.edit_category);
-        category.setAdapter(adapter);
-
-        name = (EditText) findViewById(R.id.edit_name);
-        description = (EditText) findViewById(R.id.edit_description);
-
-        // ACTION EDIT - set initial value
-        if (getIntent().getAction() == ViewActivity.ACTION_EDIT_PLACE) {
-            imagePath = getIntent().getStringExtra(ViewActivity.EXTRA_IMAGE_PATH);
-            if (!TextUtils.isEmpty(imagePath)) {
-                Bitmap bitmap = ImageUtils.decodeBitmapFromFile(imagePath, imageView.getWidth(), imageView.getHeight());
-                if (bitmap != null) {
-                    imageView.setImageBitmap(bitmap);
-                    moveFab();
-                }
-            }
-            name.setText(getIntent().getStringExtra(ViewActivity.EXTRA_NAME));
-            description.setText(getIntent().getStringExtra(ViewActivity.EXTRA_DESCRIPTION));
-        }
-
         setResult(RESULT_CANCELED);
     }
 
@@ -110,14 +113,12 @@ public class EditActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_TAKE_IMAGE && resultCode == RESULT_OK) {
             // set imageView and thumbnail to store in DB and show in list
-            Bitmap bitmap = null;
             if (!TextUtils.isEmpty(imagePath)) {
                 ImageUtils.addImageToGallery(this, imagePath);
-                bitmap = ImageUtils.decodeBitmapFromFile(imagePath, imageView.getWidth(), imageView.getHeight());
-                thumbnail = ImageUtils.decodeBitmapFromFile(imagePath, 160, 160);
-            }
-            if (bitmap != null) {
-                imageView.setImageBitmap(bitmap);
+                Glide.with(this)
+                        .load(imagePath)
+                        .fitCenter()
+                        .into(imageView);
                 moveFab();
             }
         }
@@ -152,36 +153,56 @@ public class EditActivity extends AppCompatActivity {
      * Handle click Action Bar Button 'Done'
      */
     public void done(MenuItem item) {
+        // ADD PLACE
         if (getIntent().getAction() == MainActivity.ACTION_ADD_PLACE) {
             getContentResolver().insert(DBContentProvider.CONTENT_URI, getContentValues());
             setResult(RESULT_OK);
-        } else if (getIntent().getAction() == ViewActivity.ACTION_EDIT_PLACE) {
-            if (!TextUtils.isEmpty(imagePath) && !imagePath.equals(getIntent().getStringExtra(ViewActivity.EXTRA_IMAGE_PATH))
-                    || !name.getText().equals(getIntent().getStringExtra(ViewActivity.EXTRA_NAME))
-                    || !description.getText().equals(getIntent().getStringExtra(ViewActivity.EXTRA_DESCRIPTION))) {
-                int ID = getIntent().getIntExtra(ViewActivity.EXTRA_ID, -1);
-                String where = "(" + PlaceTable._ID + " = " + ID + ")";
-                Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, ID);
+
+            // EDIT PLACE
+        } else if (getIntent().getAction() == MainActivity.ACTION_EDIT_PLACE) {
+            if (!TextUtils.isEmpty(imagePath) && !imagePath.equals(place.getImagePath())
+                    || !name.getText().equals(place.getName())
+                    || !description.getText().equals(place.getDescription())) {
+
+                String where = "(" + PlaceTable._ID + " = " + place.getID() + ")";
+                Uri uri = ContentUris.withAppendedId(DBContentProvider.CONTENT_ID_URI, place.getID());
                 getContentResolver().update(uri, getContentValues(), where, null);
 
+                place.setName(name.getText().toString());
+                place.setDescription(description.getText().toString());
+                place.setDate(new Date());
+                place.setImagePath(imagePath);
+
                 Intent result = new Intent();
-                result.putExtra(ViewActivity.EXTRA_NAME, name.getText());
-                result.putExtra(ViewActivity.EXTRA_IMAGE_PATH, imagePath);
-                result.putExtra(ViewActivity.EXTRA_DESCRIPTION, description.getText());
+                result.putExtra(MainActivity.EXTRA_PLACE, place);
                 setResult(RESULT_OK, result);
             }
-        } else {
-            setResult(RESULT_CANCELED);
         }
         finish();
     }
 
     private ContentValues getContentValues() {
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(PlaceTable.NAME, name.getText().toString());
         values.put(PlaceTable.DATE, new Date().getTime());
         values.put(PlaceTable.DESCRIPTION, description.getText().toString());
         // put thumbnail image
+        // TODO: all DB action should be in background, include Glide.load
+//        if (!TextUtils.isEmpty(imagePath)) {
+//            byte[] res = new byte[1];
+//            Glide.with(this)
+//                    .load(imagePath)
+//                    .asBitmap()
+//                    .toBytes()
+//                    .into(new SimpleTarget<byte[]>(96, 96) {
+//                        @Override
+//                        public void onResourceReady(byte[] data, GlideAnimation anim) {
+//
+//                        }
+//                    });
+//            int i = res.length;
+//        }
+        Bitmap thumbnail = ImageUtils.decodeBitmapFromFile(imagePath, 96, 96);
         if (thumbnail != null) {
             byte[] bytes = null;
             try {
@@ -198,4 +219,6 @@ public class EditActivity extends AppCompatActivity {
         values.put(PlaceTable.IMAGE_PATH, imagePath);
         return values;
     }
+
 }
+
