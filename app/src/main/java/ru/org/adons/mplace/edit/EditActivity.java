@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -66,13 +67,13 @@ public class EditActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.edit_fab);
 
         // ACTION EDIT - set initial value
-        if (getIntent().getAction() == MainActivity.ACTION_EDIT_PLACE) {
+        if (MainActivity.ACTION_EDIT_PLACE.equals(getIntent().getAction())) {
             place = (Place) getIntent().getSerializableExtra(MainActivity.EXTRA_PLACE);
             imagePath = place.getImagePath();
             if (!TextUtils.isEmpty(imagePath)) {
                 Glide.with(this)
                         .load(place.getImagePath())
-                        .fitCenter()
+                        .centerCrop()
                         .into(imageView);
                 moveFab();
             }
@@ -111,13 +112,14 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": onActivityResult");
         if (requestCode == CODE_TAKE_IMAGE && resultCode == RESULT_OK) {
             // set imageView and thumbnail to store in DB and show in list
             if (!TextUtils.isEmpty(imagePath)) {
                 ImageUtils.addImageToGallery(this, imagePath);
                 Glide.with(this)
                         .load(imagePath)
-                        .fitCenter()
+                        .centerCrop()
                         .into(imageView);
                 moveFab();
             }
@@ -154,12 +156,12 @@ public class EditActivity extends AppCompatActivity {
      */
     public void done(MenuItem item) {
         // ADD PLACE
-        if (getIntent().getAction() == MainActivity.ACTION_ADD_PLACE) {
+        if (MainActivity.ACTION_ADD_PLACE.equals(getIntent().getAction())) {
             getContentResolver().insert(DBContentProvider.CONTENT_URI, getContentValues());
             setResult(RESULT_OK);
 
             // EDIT PLACE
-        } else if (getIntent().getAction() == MainActivity.ACTION_EDIT_PLACE) {
+        } else if (MainActivity.ACTION_EDIT_PLACE.equals(getIntent().getAction())) {
             if (!TextUtils.isEmpty(imagePath) && !imagePath.equals(place.getImagePath())
                     || !name.getText().equals(place.getName())
                     || !description.getText().equals(place.getDescription())) {
@@ -182,6 +184,8 @@ public class EditActivity extends AppCompatActivity {
     }
 
     private ContentValues getContentValues() {
+        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": CV 1");
+
         final ContentValues values = new ContentValues();
         values.put(PlaceTable.NAME, name.getText().toString());
         values.put(PlaceTable.DATE, new Date().getTime());
@@ -202,23 +206,25 @@ public class EditActivity extends AppCompatActivity {
 //                    });
 //            int i = res.length;
 //        }
-        Bitmap thumbnail = ImageUtils.decodeBitmapFromFile(imagePath, 96, 96);
+        Bitmap thumbnail = null;
+        if (!TextUtils.isEmpty(imagePath)) {
+            thumbnail = ImageUtils.decodeBitmapFromFile(imagePath, 96, 96);
+        }
         if (thumbnail != null) {
-            byte[] bytes = null;
-            try {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                thumbnail.compress(Bitmap.CompressFormat.PNG, 0, out);
-                bytes = out.toByteArray();
-                out.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            values.put(PlaceTable.THUMBNAIL, bytes);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            thumbnail.compress(Bitmap.CompressFormat.PNG, 0, out);
+            values.put(PlaceTable.THUMBNAIL, out.toByteArray());
         }
         // put imagePath
         values.put(PlaceTable.IMAGE_PATH, imagePath);
+        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": CV 2");
         return values;
     }
 
+    @Override
+    protected void onDestroy() {
+        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": destroy");
+        super.onDestroy();
+    }
 }
 

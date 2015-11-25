@@ -31,9 +31,11 @@ public class ViewActivity extends AppCompatActivity {
 
     private Place place;
     private CollapsingToolbarLayout collapsingToolbar;
+    private TextView title;
     private ImageView imageView;
-    private TextView description;
+    private TextView location;
     private TextView date;
+    private TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +47,15 @@ public class ViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(place.getName());
+        title = (TextView) findViewById(R.id.view_title);
+        if (collapsingToolbar != null) {
+            collapsingToolbar.setTitle(place.getName());
+        } else if (title != null) {
+            title.setText(place.getName());
+        }
 
         imageView = (ImageView) findViewById(R.id.view_backdrop);
         if (!TextUtils.isEmpty(place.getImagePath())) {
@@ -57,11 +65,14 @@ public class ViewActivity extends AppCompatActivity {
                     .into(imageView);
         }
 
-        description = (TextView) findViewById(R.id.view_desc);
-        description.setText(place.getDescription());
+        location = (TextView) findViewById(R.id.card_location);
+        location.setText("Default Location");
 
-        date = (TextView) findViewById(R.id.view_date);
+        date = (TextView) findViewById(R.id.card_location_date);
         date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
+
+        description = (TextView) findViewById(R.id.card_info);
+        description.setText(place.getDescription());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -101,13 +112,19 @@ public class ViewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainActivity.CODE_EDIT_PLACE && resultCode == RESULT_OK) {
             place = (Place) data.getSerializableExtra(MainActivity.EXTRA_PLACE);
-            collapsingToolbar.setTitle(place.getName());
+            if (collapsingToolbar != null) {
+                collapsingToolbar.setTitle(place.getName());
+            } else if (title != null) {
+                title.setText(place.getName());
+            }
+
             Glide.with(this)
                     .load(place.getImagePath())
                     .centerCrop()
                     .into(imageView);
-            description.setText(place.getDescription());
+            location.setText("Default Location");
             date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
+            description.setText(place.getDescription());
         }
     }
 

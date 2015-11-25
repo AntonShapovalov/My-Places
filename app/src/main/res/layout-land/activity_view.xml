@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="ru.org.adons.mplace.view.ViewActivity">
+
+    <!--suppress AndroidDomInspection -->
+    <ImageView
+        android:id="@+id/view_backdrop"
+        android:background="@color/indigo500"
+        android:contentDescription="Centred Crop Image"
+        android:scaleType="center"
+        android:src="@drawable/ic_image_white_48dp"
+        app:layout_aspectRatio="75%"
+        app:layout_heightPercent="100%" />
+
+    <TextView
+        android:id="@+id/view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/view_backdrop"
+        android:layout_alignLeft="@id/view_backdrop"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@id/view_backdrop"
+        android:layout_alignStart="@id/view_backdrop"
+        android:layout_marginBottom="32dp"
+        android:layout_marginLeft="48dp"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <!--suppress AndroidDomInspection -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/view_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignEnd="@id/view_backdrop"
+        android:layout_alignLeft="@id/view_backdrop"
+        android:layout_alignRight="@id/view_backdrop"
+        android:layout_alignStart="@id/view_backdrop"
+        app:theme="@style/AppTheme.AppBarOverlay" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/view_nested_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/view_backdrop">
+
+        <include layout="@layout/include_cards" />
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/view_fab"
+        style="@style/Widget.FloatingActionButton.NotList"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_directions_white_24dp" />
+
+</android.support.percent.PercentRelativeLayout>

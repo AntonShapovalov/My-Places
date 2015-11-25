@@ -12,9 +12,10 @@
         android:id="@+id/item_image"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_centerVertical="true"
         android:background="@drawable/thumbnail_background"
-        android:scaleType="fitCenter"
-        android:contentDescription="@string/item_image_content" />
+        android:contentDescription="@string/item_image_content"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/item_name"

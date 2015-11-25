@@ -4,7 +4,6 @@
 
     <!-- Main Activity -->
     <string name="main_title">My Favorite Places</string>
-    <string name="main_intent_key_item_id"></string>
 
     <!-- List -->
     <string name="item_image_content">Default List Image</string>
@@ -20,10 +19,9 @@
 
     <!-- Edit Activity -->
     <string name="edit_title">Modify Place</string>
-    <string name="edit_category">Category</string>
     <string name="edit_category_prompt">Select Category</string>
     <string name="edit_name">Name</string>
-    <string name="edit_description">Description</string>
+    <string name="edit_description">Info</string>
     <string name="edit_action_done">Done</string>
 
     <!-- View Activity -->
