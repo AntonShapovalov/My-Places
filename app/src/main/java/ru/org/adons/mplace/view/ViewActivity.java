@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.MConstants;
 import ru.org.adons.mplace.Place;
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
@@ -42,7 +42,11 @@ public class ViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
-        place = (Place) getIntent().getSerializableExtra(MainActivity.EXTRA_PLACE);
+        if (savedInstanceState != null) {
+            place = (Place) savedInstanceState.getSerializable(MConstants.EXTRA_PLACE);
+        } else {
+            place = (Place) getIntent().getSerializableExtra(MConstants.EXTRA_PLACE);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
@@ -85,6 +89,12 @@ public class ViewActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(MConstants.EXTRA_PLACE, place);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_view, menu);
         return true;
@@ -103,15 +113,15 @@ public class ViewActivity extends AppCompatActivity {
      */
     public void edit(MenuItem item) {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.setAction(MainActivity.ACTION_EDIT_PLACE);
-        intent.putExtra(MainActivity.EXTRA_PLACE, place);
-        startActivityForResult(intent, MainActivity.CODE_EDIT_PLACE);
+        intent.setAction(MConstants.ACTION_EDIT_PLACE);
+        intent.putExtra(MConstants.EXTRA_PLACE, place);
+        startActivityForResult(intent, MConstants.CODE_EDIT_PLACE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MainActivity.CODE_EDIT_PLACE && resultCode == RESULT_OK) {
-            place = (Place) data.getSerializableExtra(MainActivity.EXTRA_PLACE);
+        if (requestCode == MConstants.CODE_EDIT_PLACE && resultCode == RESULT_OK) {
+            place = (Place) data.getSerializableExtra(MConstants.EXTRA_PLACE);
             if (collapsingToolbar != null) {
                 collapsingToolbar.setTitle(place.getName());
             } else if (title != null) {
@@ -122,6 +132,7 @@ public class ViewActivity extends AppCompatActivity {
                     .load(place.getImagePath())
                     .centerCrop()
                     .into(imageView);
+
             location.setText("Default Location");
             date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
             description.setText(place.getDescription());
@@ -140,7 +151,7 @@ public class ViewActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        Log.d(MainActivity.LOG_TAG, this.getLocalClassName() + ": destroy");
+        Log.d(MConstants.LOG_TAG, this.getLocalClassName() + ": destroy");
         super.onDestroy();
     }
 }

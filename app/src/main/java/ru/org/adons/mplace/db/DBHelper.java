@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.MConstants;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -39,7 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     private void recreateDB(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(MainActivity.LOG_TAG, "Upgrading database from version " + oldVersion + " to "
+        Log.w(MConstants.LOG_TAG, "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + PlaceTable.TABLE_NAME);
         onCreate(db);

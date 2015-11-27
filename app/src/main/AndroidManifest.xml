@@ -37,6 +37,10 @@
             android:authorities="ru.org.adons.mplace.db"
             android:exported="false" />
 
+        <service
+            android:name=".db.DBUpdateService"
+            android:exported="false" />
+
     </application>
 
 </manifest>

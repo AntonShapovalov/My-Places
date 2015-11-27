@@ -25,7 +25,6 @@
     <string name="edit_action_done">Done</string>
 
     <!-- View Activity -->
-    <string name="view_title">View Place</string>
     <string name="view_action_edit">Edit</string>
     <string name="view_action_delete">Delete</string>
 </resources>

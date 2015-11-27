@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.Date;
 
-import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.MConstants;
 import ru.org.adons.mplace.Place;
 import ru.org.adons.mplace.R;
 import ru.org.adons.mplace.db.DBContentProvider;
@@ -29,10 +29,9 @@ import ru.org.adons.mplace.view.ViewActivity;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private Context context;
-    private final TypedValue backgroundValue = new TypedValue();
-    private int itemBackground;
-    private CursorAdapter cursorAdapter;
+    private final Context context;
+    private final int itemBackground;
+    private final CursorAdapter cursorAdapter;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View holderView;
@@ -49,6 +48,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public RecyclerAdapter(Context context) {
         this.context = context;
+        final TypedValue backgroundValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.selectableItemBackground, backgroundValue, true);
         itemBackground = backgroundValue.resourceId;
         // TODO: replace with simple cursor
@@ -91,7 +91,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 place.setName(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_NAME_INDEX));
                 place.setDescription(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_DESCRIPTION_INDEX));
                 place.setImagePath(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_IMAGE_PATH_INDEX));
-                intent.putExtra(MainActivity.EXTRA_PLACE, place);
+                intent.putExtra(MConstants.EXTRA_PLACE, place);
                 v.getContext().startActivity(intent);
             }
         });

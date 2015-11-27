@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 public class CategoryAdapter extends ArrayAdapter<Integer> {
 
-
     public CategoryAdapter(Context context, int resource) {
         super(context, resource);
         addAll(MainActivity.categories.keySet());

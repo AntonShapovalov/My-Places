@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import ru.org.adons.mplace.MainActivity;
+import ru.org.adons.mplace.MConstants;
 
 public class DBContentProvider extends ContentProvider {
 
@@ -20,7 +20,7 @@ public class DBContentProvider extends ContentProvider {
 
     public static final int PLACES = 1;
     public static final int PLACE_ID = 2;
-    private UriMatcher uriMatcher;
+    private final UriMatcher uriMatcher;
     private DBHelper dbHelper;
 
     public DBContentProvider() {
@@ -45,7 +45,7 @@ public class DBContentProvider extends ContentProvider {
             cursor.setNotificationUri(getContext().getContentResolver(), uri);
             return cursor;
         } else {
-            Log.e(MainActivity.LOG_TAG, "Unknown URI " + uri);
+            Log.e(MConstants.LOG_TAG, "Unknown URI " + uri);
             return null;
         }
     }
@@ -68,11 +68,11 @@ public class DBContentProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(noteUri, null);
                 return noteUri;
             } else {
-                Log.e(MainActivity.LOG_TAG, "Failed to insert row into " + uri);
+                Log.e(MConstants.LOG_TAG, "Failed to insert row into " + uri);
                 return null;
             }
         } else {
-            Log.e(MainActivity.LOG_TAG, "Unknown URI " + uri);
+            Log.e(MConstants.LOG_TAG, "Unknown URI " + uri);
             return null;
         }
     }
@@ -86,11 +86,11 @@ public class DBContentProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return rowId;
             } else {
-                Log.e(MainActivity.LOG_TAG, "Failed to delete row " + uri);
+                Log.e(MConstants.LOG_TAG, "Failed to delete row " + uri);
                 return 0;
             }
         } else {
-            Log.e(MainActivity.LOG_TAG, "Unknown URI " + uri);
+            Log.e(MConstants.LOG_TAG, "Unknown URI " + uri);
             return 0;
         }
     }
@@ -104,11 +104,11 @@ public class DBContentProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return rowId;
             } else {
-                Log.e(MainActivity.LOG_TAG, "Failed to update row " + uri);
+                Log.e(MConstants.LOG_TAG, "Failed to update row " + uri);
                 return 0;
             }
         } else {
-            Log.e(MainActivity.LOG_TAG, "Unknown URI " + uri);
+            Log.e(MConstants.LOG_TAG, "Unknown URI " + uri);
             return 0;
         }
     }

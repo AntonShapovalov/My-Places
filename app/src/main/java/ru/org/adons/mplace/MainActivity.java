@@ -25,21 +25,13 @@ import ru.org.adons.mplace.list.RecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String LOG_TAG = "MPLACE";
     public static final Map<Integer, String> categories = new TreeMap<Integer, String>();
-    public static final String ACTION_ADD_PLACE = "ADD_PLACE";
-    public static final String ACTION_EDIT_PLACE = "EDIT_PLACE";
-    public static final int CODE_ADD_PLACE = 1;
-    public static final int CODE_EDIT_PLACE = 2;
-    public static final String EXTRA_PLACE = "place";
-
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
-    private RecyclerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(MainActivity.LOG_TAG, "MAIN:onCreate");
+        Log.d(MConstants.LOG_TAG, "MAIN:onCreate");
         super.onCreate(savedInstanceState);
         if (categories.size() == 0) {
             categories.put(R.id.nav_place, getString(R.string.nav_place));
@@ -54,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -76,15 +70,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                intent.setAction(ACTION_ADD_PLACE);
-                startActivityForResult(intent, CODE_ADD_PLACE);
+                intent.setAction(MConstants.ACTION_ADD_PLACE);
+                startActivityForResult(intent, MConstants.CODE_ADD_PLACE);
             }
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new RecyclerAdapter(this);
+        RecyclerAdapter adapter = new RecyclerAdapter(this);
         getSupportLoaderManager().initLoader(0, null, adapter);
         recyclerView.setAdapter(adapter);
 
@@ -92,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE_ADD_PLACE && resultCode == RESULT_OK) {
+        if (requestCode == MConstants.CODE_ADD_PLACE && resultCode == RESULT_OK) {
             // TODO: implement incremental adding to prevent reload all items via Loader
             // get rowID from Intent data
             // adapter.addPlace(rowID)
@@ -124,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void filterList(int category) {
         // TODO: filter list by category
-        Toast.makeText(this, categories.get(category).toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, categories.get(category), Toast.LENGTH_LONG).show();
     }
 
 }
