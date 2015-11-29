@@ -11,7 +11,7 @@
     <ImageView
         android:id="@+id/view_backdrop"
         android:background="@color/indigo500"
-        android:contentDescription="Centred Crop Image"
+        android:contentDescription="@string/view_image_content"
         android:scaleType="center"
         android:src="@drawable/ic_image_white_48dp"
         app:layout_aspectRatio="75%"
@@ -28,8 +28,9 @@
         android:layout_alignStart="@id/view_backdrop"
         android:layout_marginBottom="32dp"
         android:layout_marginLeft="48dp"
+        android:layout_marginRight="16dp"
         android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textSize="36sp" />
 
     <!--suppress AndroidDomInspection -->
     <android.support.v7.widget.Toolbar

@@ -24,7 +24,6 @@
         android:layout_marginLeft="16dp"
         android:layout_toEndOf="@id/item_image"
         android:layout_toRightOf="@id/item_image"
-        android:text="@string/item_name"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
@@ -33,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/item_name"
         android:layout_below="@id/item_name"
-        android:layout_marginTop="8dp"
-        android:text="@string/item_location" />
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

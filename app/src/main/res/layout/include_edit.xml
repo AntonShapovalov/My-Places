@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
+        android:contentDescription="@string/edit_image_content"
         android:paddingTop="8dp"
         android:scaleType="center"
         android:src="@drawable/ic_location_on_black_24dp" />
@@ -40,6 +41,7 @@
         android:layout_below="@id/edit_category"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/edit_image_content"
         android:paddingTop="8dp"
         android:scaleType="center"
         android:src="@drawable/ic_info_outline_black_24dp" />

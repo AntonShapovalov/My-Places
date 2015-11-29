@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -50,15 +50,19 @@ public class ViewActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        final ActionBar ab = getSupportActionBar();
+        if (ab != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         title = (TextView) findViewById(R.id.view_title);
+        final String nameText = place.getName() == null ? place.getAddress() : place.getName();
         if (collapsingToolbar != null) {
-            collapsingToolbar.setTitle(place.getName());
+            collapsingToolbar.setTitle(nameText);
         } else if (title != null) {
-            title.setText(place.getName());
+            title.setText(nameText);
         }
 
         imageView = (ImageView) findViewById(R.id.view_backdrop);
@@ -70,7 +74,7 @@ public class ViewActivity extends AppCompatActivity {
         }
 
         location = (TextView) findViewById(R.id.card_location);
-        location.setText("Default Location");
+        location.setText(place.getAddress());
 
         date = (TextView) findViewById(R.id.card_location_date);
         date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
@@ -82,8 +86,17 @@ public class ViewActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: go to the Map by coordinates
-                Toast.makeText(view.getContext(), "GOTO MAP!", Toast.LENGTH_SHORT).show();
+                final StringBuilder sb = new StringBuilder();
+                sb.append("geo:")
+                        .append(place.getLatitude())
+                        .append(",")
+                        .append(place.getLongitude())
+                        .append("?z=13");
+                Uri location = Uri.parse(sb.toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(Intent.createChooser(mapIntent, "Maps"));
+                }
             }
         });
     }
@@ -121,11 +134,17 @@ public class ViewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MConstants.CODE_EDIT_PLACE && resultCode == RESULT_OK) {
-            place = (Place) data.getSerializableExtra(MConstants.EXTRA_PLACE);
+            final Place newPlace = (Place) data.getSerializableExtra(MConstants.EXTRA_PLACE);
+            place.setName(newPlace.getName());
+            place.setImagePath(newPlace.getImagePath());
+            place.setDate(newPlace.getDate());
+            place.setDescription(newPlace.getDescription());
+
+            final String nameText = place.getName() == null ? location.getText().toString() : place.getName();
             if (collapsingToolbar != null) {
-                collapsingToolbar.setTitle(place.getName());
+                collapsingToolbar.setTitle(nameText);
             } else if (title != null) {
-                title.setText(place.getName());
+                title.setText(nameText);
             }
 
             Glide.with(this)
@@ -133,7 +152,6 @@ public class ViewActivity extends AppCompatActivity {
                     .centerCrop()
                     .into(imageView);
 
-            location.setText("Default Location");
             date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
             description.setText(place.getDescription());
         }

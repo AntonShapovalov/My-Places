@@ -5,13 +5,14 @@
     android:id="@+id/edit_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.org.adons.mplace.edit.EditActivity">
+    tools:context=".edit.EditActivityBase">
 
     <!-- suppress AndroidDomInspection -->
     <ImageView
         android:id="@+id/edit_image"
         android:layout_width="match_parent"
         android:background="@color/indigo50"
+        android:contentDescription="@string/edit_image_content"
         app:layout_aspectRatio="150%"
         app:layout_widthPercent="100%" />
 

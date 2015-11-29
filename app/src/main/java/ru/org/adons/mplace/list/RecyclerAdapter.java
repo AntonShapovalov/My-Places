@@ -37,12 +37,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public final View holderView;
         public final ImageView image;
         public final TextView name;
+        public final TextView location;
 
         public ViewHolder(View v) {
             super(v);
             holderView = v;
             image = (ImageView) v.findViewById(R.id.item_image);
             name = (TextView) v.findViewById(R.id.item_name);
+            location = (TextView) v.findViewById(R.id.item_location);
         }
     }
 
@@ -78,6 +80,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.name.setText(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_NAME_INDEX));
+        holder.location.setText(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_ADDRESS_INDEX));
 
         // VIEW PLACE
         holder.holderView.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +94,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 place.setName(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_NAME_INDEX));
                 place.setDescription(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_DESCRIPTION_INDEX));
                 place.setImagePath(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_IMAGE_PATH_INDEX));
+                place.setLatitude(cursorAdapter.getCursor().getDouble(PlaceTable.COLUMN_LATITUDE_INDEX));
+                place.setLongitude(cursorAdapter.getCursor().getDouble(PlaceTable.COLUMN_LONGITUDE_INDEX));
+                place.setAddress(cursorAdapter.getCursor().getString(PlaceTable.COLUMN_ADDRESS_INDEX));
                 intent.putExtra(MConstants.EXTRA_PLACE, place);
                 v.getContext().startActivity(intent);
             }

@@ -17,15 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.Map;
 import java.util.TreeMap;
 
-import ru.org.adons.mplace.edit.EditActivity;
+import ru.org.adons.mplace.edit.AddActivity;
 import ru.org.adons.mplace.list.RecyclerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final Map<Integer, String> categories = new TreeMap<Integer, String>();
+    public static final TreeMap<Integer, String> categories = new TreeMap<>();
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
 
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                Intent intent = new Intent(MainActivity.this, AddActivity.class);
                 intent.setAction(MConstants.ACTION_ADD_PLACE);
                 startActivityForResult(intent, MConstants.CODE_ADD_PLACE);
             }

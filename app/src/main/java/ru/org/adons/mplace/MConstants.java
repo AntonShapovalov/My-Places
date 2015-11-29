@@ -11,6 +11,7 @@ public final class MConstants {
     public static final int CODE_EDIT_PLACE = 2;
     public static final int CODE_TAKE_IMAGE = 3;
     public static final String EXTRA_PLACE = "place";
+    public static final String EXTRA_LOCATION = "location";
     public static final String STATE_IMAGE_PATH = "imagePath";
     public static final String STATE_IS_IMAGE = "isImage";
 

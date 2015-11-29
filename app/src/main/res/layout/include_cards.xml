@@ -18,7 +18,7 @@
                 android:id="@+id/card_location_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
+                android:contentDescription="@string/view_image_content"
                 android:scaleType="center"
                 android:src="@drawable/ic_location_on_black_24dp" />
 
@@ -29,7 +29,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toEndOf="@id/card_location_image"
                 android:layout_toRightOf="@id/card_location_image"
-                android:text="Location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
             <View
@@ -47,8 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/card_location"
-                android:layout_below="@id/card_location_div"
-                android:text="Date" />
+                android:layout_below="@id/card_location_div" />
 
         </RelativeLayout>
 
@@ -70,7 +68,7 @@
                 android:id="@+id/card_info_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
+                android:contentDescription="@string/view_image_content"
                 android:scaleType="center"
                 android:src="@drawable/ic_info_outline_black_24dp" />
 
@@ -80,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/card_info_image"
-                android:text="Info"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
         </RelativeLayout>

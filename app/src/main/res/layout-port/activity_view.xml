@@ -32,6 +32,7 @@
                 <ImageView
                     android:id="@+id/view_backdrop"
                     android:background="@color/indigo500"
+                    android:contentDescription="@string/view_image_content"
                     android:scaleType="center"
                     android:src="@drawable/ic_image_white_48dp"
                     app:layout_aspectRatio="150%"

@@ -10,6 +10,9 @@ public class Place implements Serializable {
     private Date date;
     private String description;
     private String imagePath;
+    private Double latitude;
+    private Double longitude;
+    private String address;
 
     public int getID() {
         return ID;
@@ -50,4 +53,29 @@ public class Place implements Serializable {
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 }

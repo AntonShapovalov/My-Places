@@ -7,8 +7,6 @@
 
     <!-- List -->
     <string name="item_image_content">Default List Image</string>
-    <string name="item_name">Default Name</string>
-    <string name="item_location">default location</string>
 
     <!-- Categories -->
     <string name="nav_place">Place</string>
@@ -23,8 +21,10 @@
     <string name="edit_name">Name</string>
     <string name="edit_description">Info</string>
     <string name="edit_action_done">Done</string>
+    <string name="edit_image_content">Image Holder</string>
 
     <!-- View Activity -->
     <string name="view_action_edit">Edit</string>
     <string name="view_action_delete">Delete</string>
+    <string name="view_image_content">Image Holder</string>
 </resources>
