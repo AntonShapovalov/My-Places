@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/l_nav_all"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_all" />
+        <item
+            android:id="@+id/l_nav_verbose"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_verbose" />
+        <item
+            android:id="@+id/l_nav_debug"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_debug" />
+        <item
+            android:id="@+id/l_nav_info"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_info" />
+        <item
+            android:id="@+id/l_nav_warn"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_warn" />
+        <item
+            android:id="@+id/l_nav_error"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_error" />
+        <item
+            android:id="@+id/l_nav_assert"
+            android:icon="@drawable/ic_l"
+            android:title="@string/l_nav_assert" />
+    </group>
+
+</menu>

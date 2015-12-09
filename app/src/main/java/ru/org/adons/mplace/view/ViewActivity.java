@@ -8,6 +8,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -19,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 import ru.org.adons.mplace.MConstants;
 import ru.org.adons.mplace.Place;
@@ -74,13 +78,24 @@ public class ViewActivity extends AppCompatActivity {
         }
 
         location = (TextView) findViewById(R.id.card_location);
-        location.setText(place.getAddress());
+        if (!TextUtils.isEmpty(place.getAddress())) {
+            location.setText(place.getAddress());
+        } else {
+            final String text = String.valueOf(place.getLatitude()) + ", " + String.valueOf(place.getLongitude());
+            location.setText(text);
+        }
+
 
         date = (TextView) findViewById(R.id.card_location_date);
         date.setText(DateFormat.getLongDateFormat(this).format(place.getDate()));
 
         description = (TextView) findViewById(R.id.card_info);
-        description.setText(place.getDescription());
+        if (!TextUtils.isEmpty(place.getDescription())) {
+            description.setText(place.getDescription());
+        } else {
+            CardView cv = (CardView) findViewById(R.id.card_info_holder);
+            cv.setVisibility(View.INVISIBLE);
+        }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +106,32 @@ public class ViewActivity extends AppCompatActivity {
                         .append(place.getLatitude())
                         .append(",")
                         .append(place.getLongitude())
-                        .append("?z=13");
+                        .append("?q=");
+                if (!TextUtils.isEmpty(place.getAddress())) {
+                    try {
+                        sb.append(URLEncoder.encode(place.getAddress(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        Log.e(MConstants.LOG_TAG, ViewActivity.this.getLocalClassName() + " :GEO: unable encode address", e);
+                    }
+                } else {
+                    sb.append(place.getLatitude())
+                            .append(",")
+                            .append(place.getLongitude());
+                }
+                if (!TextUtils.isEmpty(place.getName())) {
+                    sb.append("(");
+                    try {
+                        sb.append(URLEncoder.encode(place.getName(), "UTF-8"));
+                    } catch (UnsupportedEncodingException e) {
+                        Log.e(MConstants.LOG_TAG, ViewActivity.this.getLocalClassName() + " :GEO: unable encode name", e);
+                    }
+                    sb.append(")");
+                }
+                Log.d(MConstants.LOG_TAG, ViewActivity.this.getLocalClassName() + " :GEO: " + sb.toString());
                 Uri location = Uri.parse(sb.toString());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, location);
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
-                    startActivity(Intent.createChooser(mapIntent, "Maps"));
+                    startActivityForResult(mapIntent, MConstants.CODE_VIEW_MAP);
                 }
             }
         });

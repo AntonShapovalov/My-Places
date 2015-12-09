@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MPlace</string>
-    <string name="action_settings">Settings</string>
 
     <!-- Main Activity -->
     <string name="main_title">My Favorite Places</string>
+    <string name="action_logcat">Logcat</string>
 
     <!-- List -->
     <string name="item_image_content">Default List Image</string>
@@ -27,4 +27,17 @@
     <string name="view_action_edit">Edit</string>
     <string name="view_action_delete">Delete</string>
     <string name="view_image_content">Image Holder</string>
+
+    <!-- Logcat Activity -->
+    <string name="logcat_title">Logcat</string>
+    <string name="action_clear">Clear Log</string>
+    <string name="l_nav_header">Logcat levels</string>
+    <string name="l_nav_all">All</string>
+    <string name="l_nav_verbose">Verbose</string>
+    <string name="l_nav_debug">Debug</string>
+    <string name="l_nav_info">Info</string>
+    <string name="l_nav_warn">Warn</string>
+    <string name="l_nav_error">Error</string>
+    <string name="l_nav_assert">Assert</string>
+
 </resources>

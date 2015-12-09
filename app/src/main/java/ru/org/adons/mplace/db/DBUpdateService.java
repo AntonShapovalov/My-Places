@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,16 +28,16 @@ public class DBUpdateService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d(MConstants.LOG_TAG, this.getClass().getSimpleName() + ": onHandleIntent");
         final Place place = (Place) intent.getSerializableExtra(MConstants.EXTRA_PLACE);
 
         // ADD PLACE
         if (MConstants.ACTION_ADD_PLACE.equals(intent.getAction())) {
             ContentValues values = getUpdateContentValues(place);
-            final Location location = intent.getParcelableExtra(MConstants.EXTRA_LOCATION);
-            if (location != null) {
-                // get coordinates
-                final double latitude = location.getLatitude();
-                final double longitude = location.getLongitude();
+            final double latitude = intent.getDoubleExtra(MConstants.EXTRA_LATITUDE, 0);
+            final double longitude = intent.getDoubleExtra(MConstants.EXTRA_LONGITUDE, 0);
+            if (latitude != 0 && longitude != 0) {
+                Log.d(MConstants.LOG_TAG, "LATITUDE = " + latitude + "; LONGITUDE = " + longitude);
 
                 // get address string
                 final Geocoder geocoder = new Geocoder(this, Locale.getDefault());

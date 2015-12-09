@@ -21,16 +21,18 @@ import java.util.TreeMap;
 
 import ru.org.adons.mplace.edit.AddActivity;
 import ru.org.adons.mplace.list.RecyclerAdapter;
+import ru.org.adons.mplace.logcat.LogcatMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final TreeMap<Integer, String> categories = new TreeMap<>();
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
+    //TODO: handle add request - private boolean isInsertRequested = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(MConstants.LOG_TAG, "MAIN:onCreate");
+        Log.d(MConstants.LOG_TAG, this.getLocalClassName() + ":onCreate");
         super.onCreate(savedInstanceState);
         if (categories.size() == 0) {
             categories.put(R.id.nav_place, getString(R.string.nav_place));
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
             // adapter.addPlace(rowID)
             // adapter.notifyItemInserted(0); - added always in top of list
             recyclerView.smoothScrollToPosition(0);
+            //RecyclerAdapter adapter = (RecyclerAdapter) recyclerView.getAdapter();
+            //adapter.notifyItemChanged(0);
         }
     }
 
@@ -103,7 +107,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.main_action_settings:
+            case R.id.main_action_logcat:
+                Intent intent = new Intent(this, LogcatMainActivity.class);
+                startActivity(intent);
                 return true;
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -118,6 +124,12 @@ public class MainActivity extends AppCompatActivity {
     private void filterList(int category) {
         // TODO: filter list by category
         Toast.makeText(this, categories.get(category), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(MConstants.LOG_TAG, this.getLocalClassName() + ": destroy");
+        super.onDestroy();
     }
 
 }

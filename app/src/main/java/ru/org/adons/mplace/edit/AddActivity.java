@@ -72,7 +72,11 @@ public class AddActivity extends EditActivityBase implements GoogleApiClient.Con
                 .setAction(MConstants.ACTION_ADD_PLACE)
                 .putExtra(MConstants.EXTRA_PLACE, newPlace);
         if (location != null) {
-            serviceIntent.putExtra(MConstants.EXTRA_LOCATION, new Location(location));
+            final double latitude = location.getLatitude();
+            final double longitude = location.getLongitude();
+            Log.d(MConstants.LOG_TAG, "LATITUDE = " + latitude + "; LONGITUDE = " + longitude);
+            serviceIntent.putExtra(MConstants.EXTRA_LATITUDE, latitude);
+            serviceIntent.putExtra(MConstants.EXTRA_LONGITUDE, longitude);
         }
         startService(serviceIntent);
         setResult(RESULT_OK);
