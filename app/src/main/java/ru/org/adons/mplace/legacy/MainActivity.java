@@ -1,4 +1,4 @@
-package ru.org.adons.mplace;
+package ru.org.adons.mplace.legacy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +19,10 @@ import android.widget.Toast;
 
 import java.util.TreeMap;
 
-import ru.org.adons.mplace.edit.AddActivity;
-import ru.org.adons.mplace.list.RecyclerAdapter;
-import ru.org.adons.mplace.logcat.LogcatMainActivity;
+import ru.org.adons.mplace.R;
+import ru.org.adons.mplace.legacy.edit.AddActivity;
+import ru.org.adons.mplace.legacy.list.RecyclerAdapter;
+import ru.org.adons.mplace.legacy.logcat.LogcatMainActivity;
 
 public class MainActivity extends AppCompatActivity {
 

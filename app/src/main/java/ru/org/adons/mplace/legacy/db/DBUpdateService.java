@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.db;
+package ru.org.adons.mplace.legacy.db;
 
 import android.app.IntentService;
 import android.content.ContentUris;
@@ -16,9 +16,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
-import ru.org.adons.mplace.edit.ImageUtils;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
+import ru.org.adons.mplace.legacy.edit.ImageUtils;
 
 public class DBUpdateService extends IntentService {
 

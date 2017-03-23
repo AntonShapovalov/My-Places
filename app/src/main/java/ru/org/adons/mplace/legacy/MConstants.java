@@ -1,4 +1,4 @@
-package ru.org.adons.mplace;
+package ru.org.adons.mplace.legacy;
 
 public final class MConstants {
 

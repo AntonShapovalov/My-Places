@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.logcat;
+package ru.org.adons.mplace.legacy.logcat;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

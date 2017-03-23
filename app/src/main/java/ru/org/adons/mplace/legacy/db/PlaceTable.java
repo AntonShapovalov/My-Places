@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.db;
+package ru.org.adons.mplace.legacy.db;
 
 public final class PlaceTable {
 

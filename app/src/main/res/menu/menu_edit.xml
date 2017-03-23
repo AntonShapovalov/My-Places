@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mir="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/edit_action_done"
         android:icon="@drawable/ic_done_white_24dp"
         android:onClick="done"
         android:title="@string/edit_action_done"

@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.view;
+package ru.org.adons.mplace.legacy.view;
 
 import android.content.ContentUris;
 import android.content.Intent;
@@ -24,12 +24,12 @@ import com.bumptech.glide.Glide;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
 import ru.org.adons.mplace.R;
-import ru.org.adons.mplace.db.DBContentProvider;
-import ru.org.adons.mplace.db.PlaceTable;
-import ru.org.adons.mplace.edit.EditActivity;
+import ru.org.adons.mplace.legacy.db.DBContentProvider;
+import ru.org.adons.mplace.legacy.db.PlaceTable;
+import ru.org.adons.mplace.legacy.edit.EditActivity;
 
 public class ViewActivity extends AppCompatActivity {
 

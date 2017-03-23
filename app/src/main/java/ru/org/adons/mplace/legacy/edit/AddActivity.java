@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.edit;
+package ru.org.adons.mplace.legacy.edit;
 
 import android.content.Intent;
 import android.location.Location;
@@ -10,9 +10,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
-import ru.org.adons.mplace.db.DBUpdateService;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
+import ru.org.adons.mplace.legacy.db.DBUpdateService;
 
 public class AddActivity extends EditActivityBase implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 

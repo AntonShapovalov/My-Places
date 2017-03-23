@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.list;
+package ru.org.adons.mplace.legacy.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,12 +20,12 @@ import com.bumptech.glide.Glide;
 
 import java.util.Date;
 
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
 import ru.org.adons.mplace.R;
-import ru.org.adons.mplace.db.DBContentProvider;
-import ru.org.adons.mplace.db.PlaceTable;
-import ru.org.adons.mplace.view.ViewActivity;
+import ru.org.adons.mplace.legacy.db.DBContentProvider;
+import ru.org.adons.mplace.legacy.db.PlaceTable;
+import ru.org.adons.mplace.legacy.view.ViewActivity;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -59,8 +59,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         view.setBackgroundResource(itemBackground);
         return new ViewHolder(view);
     }

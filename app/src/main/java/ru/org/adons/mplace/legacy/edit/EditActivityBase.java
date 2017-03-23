@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.edit;
+package ru.org.adons.mplace.legacy.edit;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ru.org.adons.mplace.CategoryAdapter;
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
+import ru.org.adons.mplace.legacy.CategoryAdapter;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
 import ru.org.adons.mplace.R;
 
 public abstract class EditActivityBase extends AppCompatActivity implements EditInterface {

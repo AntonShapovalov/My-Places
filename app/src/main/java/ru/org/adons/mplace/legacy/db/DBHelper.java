@@ -1,11 +1,11 @@
-package ru.org.adons.mplace.db;
+package ru.org.adons.mplace.legacy.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import ru.org.adons.mplace.MConstants;
+import ru.org.adons.mplace.legacy.MConstants;
 
 public class DBHelper extends SQLiteOpenHelper {
 

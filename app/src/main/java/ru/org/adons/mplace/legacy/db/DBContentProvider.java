@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.db;
+package ru.org.adons.mplace.legacy.db;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,11 +10,11 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import ru.org.adons.mplace.MConstants;
+import ru.org.adons.mplace.legacy.MConstants;
 
 public class DBContentProvider extends ContentProvider {
 
-    public static final String AUTHORITY = "ru.org.adons.mplace.db";
+    public static final String AUTHORITY = "ru.org.adons.mplace.legacy.db";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + PlaceTable.TABLE_NAME);
     public static final Uri CONTENT_ID_URI = Uri.parse("content://" + AUTHORITY + "/" + PlaceTable.TABLE_NAME + "/");
 

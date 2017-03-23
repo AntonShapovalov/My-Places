@@ -1,4 +1,4 @@
-package ru.org.adons.mplace;
+package ru.org.adons.mplace.legacy;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.logcat;
+package ru.org.adons.mplace.legacy.logcat;
 
 import android.content.Intent;
 import android.os.Bundle;

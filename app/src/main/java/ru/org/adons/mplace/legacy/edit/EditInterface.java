@@ -1,4 +1,4 @@
-package ru.org.adons.mplace.edit;
+package ru.org.adons.mplace.legacy.edit;
 
 import android.view.MenuItem;
 

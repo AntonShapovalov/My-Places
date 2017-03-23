@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/l_nav_all"
             android:icon="@drawable/ic_l"
             android:title="@string/l_nav_all" />
         <item

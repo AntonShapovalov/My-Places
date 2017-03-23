@@ -1,4 +1,4 @@
-package ru.org.adons.mplace;
+package ru.org.adons.mplace.legacy;
 
 import java.io.Serializable;
 import java.util.Date;

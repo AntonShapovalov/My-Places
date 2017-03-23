@@ -1,13 +1,13 @@
-package ru.org.adons.mplace.edit;
+package ru.org.adons.mplace.legacy.edit;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import ru.org.adons.mplace.MConstants;
-import ru.org.adons.mplace.Place;
-import ru.org.adons.mplace.db.DBUpdateService;
+import ru.org.adons.mplace.legacy.MConstants;
+import ru.org.adons.mplace.legacy.Place;
+import ru.org.adons.mplace.legacy.db.DBUpdateService;
 
 public class EditActivity extends EditActivityBase {
 
