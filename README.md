@@ -3,10 +3,10 @@
 #### Application to store list of favorite places
 
 Features:
-- save your favorite place with image in two click
+- save your favorite place with an image in two clicks
 - all screens and orientations support
 - material design
-- navigate to place location on map
+- navigate to the place location on map
 
 TODO:
 - filter by category
