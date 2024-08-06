@@ -1,6 +1,6 @@
 # Android-MPlace
 
-#### Application to store list of favorite places
+#### Application to store list of favorite places.
 
 Features:
 - save your favorite place with an image in two clicks
