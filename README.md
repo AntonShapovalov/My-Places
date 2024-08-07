@@ -1,14 +1,20 @@
 # Android-MPlace
 
-#### Application to store list of favorite places.
+### _Work in progress ..._
 
-Features:
-- save your favorite place with an image in two clicks
-- all screens and orientations support
-- material design
-- navigate to the place location on map
+Application to store favorite places.
 
-TODO:
-- filter by category
-- map views with places around
-- correct handle service delay (address lookup reverse geocoding) during "add place" operation
+#### Features
+
+Application provides quick access to the list of stored places:
+- Save your favorite place with an image in two clicks.
+- All screens and orientations support.
+- Material design.
+- Navigate to the stored location on map.
+
+#### TODO
+
+Ideas about possible improvements:
+- Filter by category.
+- Map view with places around.
+- Handle service delay (address lookup reverse geocoding) on `add place` operation.
