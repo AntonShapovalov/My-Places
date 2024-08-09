@@ -2,7 +2,7 @@
 
 ### _Work in progress ..._
 
-Application to store favorite places.
+Android application stores favorite places.
 
 #### Features
 
