@@ -1,6 +1,7 @@
 # Android-MPlace
 
-### _Work in progress ..._
+> [!WARNING]
+> The project is in maiteinance mode. It needs huge update of all Android libraries.
 
 Android application stores favorite places.
 
